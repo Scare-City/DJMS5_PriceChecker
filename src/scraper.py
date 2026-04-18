@@ -5,7 +5,8 @@ websites and store it in a variable.
 """
 # install packages
 try:
-    import requests
+    import aiohttp
+    import asyncio
     import re
     from bs4 import BeautifulSoup
 except ImportError as e:
@@ -22,25 +23,24 @@ class scraper:
     def __init__(self, url):
         self.url = url
 
-    def soupify(self):
+    async def soupify(self):
         """
         takes url as input and returns the page content as 
         a soup object
         """
-        # get the page content
-        page = requests.get(self.url)
+        async with aiohttp.ClientSession() as session:
+            async with session.get(self.url) as response:
+                page_content = await response.text()
+                soup = BeautifulSoup(page_content, 'html.parser')
+                return soup
 
-        # parse page content through beautiful soup
-        soup = BeautifulSoup(page.content, 'html.parser')
-        return soup
-
-    def get_djc_price(self):
+    async def get_djc_price(self):
         """
         takes djc url as input and returns the current price 
         and savings as a tuple
         """
         # get the page content via soupify method
-        djc_content = self.soupify()
+        djc_content = await self.soupify()
         
         # get the current price and savings from the page content
         current_price_djc = djc_content.find_all('div', 
@@ -49,13 +49,13 @@ class scraper:
                                            class_='online-price')[0].get_text()
         return current_price_djc, savings_djc
     
-    def get_sdj_price(self):
+    async def get_sdj_price(self):
         """
         takes sdj url as input and returns the current price
         and savings as a tuple
         """
         # get the page content vis soupify method
-        sdj_content = self.soupify()
+        sdj_content = await self.soupify()
 
         # search for the script tage for price data pattern
         scripts = sdj_content.find_all('script')
@@ -73,4 +73,15 @@ class scraper:
                     return amount, currency
         return None, None
         
+    async def get_amz_price(self):
+        """
+        takes amz url as input and returns the current price as a string
+        """
+        # get the page content via soupify method
+        amz_content = await self.soupify()
+
+        # get the current price from the page content
+        current_price_amz = amz_content.find_all('span', 
+                                                 class_='a-price-whole')[0].get_text()[:-1]
+        return current_price_amz
         
