@@ -1,6 +1,7 @@
 """
 This python file will contain the scraper class 
-used to scrape the price of the DJM-S5 from various websites and store it in a variable.
+used to scrape the price of the DJM-S5 from various 
+websites and store it in a variable.
 """
 # install packages
 try:
@@ -14,7 +15,8 @@ except ImportError as e:
 
 class scraper:
     """
-    uses beautiful soup to scrape the price and savings of the DJM-S5 from both DJCity and Sound DJs
+    uses beautiful soup to scrape the price and savings of the 
+    DJM-S5 from both DJCity and Store DJs
     """
 
     def __init__(self, url):
@@ -22,7 +24,8 @@ class scraper:
 
     def soupify(self):
         """
-        takes url as input and returns the page content as a soup object
+        takes url as input and returns the page content as 
+        a soup object
         """
         # get the page content
         page = requests.get(self.url)
@@ -33,19 +36,23 @@ class scraper:
 
     def get_djc_price(self):
         """
-        takes djc url as input and returns the current price and savings as a tuple
+        takes djc url as input and returns the current price 
+        and savings as a tuple
         """
         # get the page content via soupify method
         djc_content = self.soupify()
         
         # get the current price and savings from the page content
-        current_price_djc = djc_content.find_all('div', class_='online-price')[1].get_text()
-        savings_djc = djc_content.find_all('div', class_='online-price')[0].get_text()
+        current_price_djc = djc_content.find_all('div', 
+                                                 class_='online-price')[1].get_text()
+        savings_djc = djc_content.find_all('div', 
+                                           class_='online-price')[0].get_text()
         return current_price_djc, savings_djc
     
     def get_sdj_price(self):
         """
-        takes sdj url as input and returns the current price and savings as a tuple
+        takes sdj url as input and returns the current price
+        and savings as a tuple
         """
         # get the page content vis soupify method
         sdj_content = self.soupify()

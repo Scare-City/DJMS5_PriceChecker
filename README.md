@@ -15,8 +15,8 @@ A lightweight price checker tool for the DJMS5 project, designed to verify and c
 
 ## Usage
 
-1. Run the price checker script.
-2. Provide the item list or target IDs as needed.
+1. Run the main.py script.
+2. Provide the item list or target IDs as needed to url dictionary.
 3. Review the output to see price results.
 
 ## Configuration
