@@ -1,0 +1,3 @@
+# core dependencies
+requests>=2.31.0
+beautifulsoup4>=4.13.4

@@ -1,0 +1,7 @@
+# ignore files
+__pycache__/
+*.pyc
+# ignore vscode settings
+.vscode/
+# ignore jupyter notebook checkpoints
+*.ipynb
