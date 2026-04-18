@@ -19,5 +19,8 @@ except Exception as e:
 
 # print the results
 if __name__ == "__main__":
-    print("DJCITY:", current_price_djc[38:-2], current_price_djc[7:32], savings_djc[11:-1])
+    print("DJCITY:", 
+          current_price_djc[38:-2], 
+          current_price_djc[7:32], 
+          savings_djc[11:-1])
     print("StoreDJ:", "Current Price is: $", amount, currency)
