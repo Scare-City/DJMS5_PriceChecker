@@ -2,6 +2,7 @@
 main runner file to run scraper.py
 """
 import asyncio
+import polars as pl
 from src.scraper import scraper
 
 # dictionary of urls to scrape
@@ -31,13 +32,16 @@ async def main():
         print("An error occurred while scraping:", e)
         return
 
-    # print the results
-    print("DJCITY:", 
-          current_price_djc[38:-2], 
-          current_price_djc[7:32], 
-          savings_djc[11:-1])
-    print("StoreDJ:", "Current Price is: $", amount, currency)
-    print("Amazon:", "$",current_price_amz)
+    # print the results in dataframe
+    price_df = pl.DataFrame({
+    "Store": ["DJCity", "Store DJ", "Amazon"],
+    "Current Price": [current_price_djc[-8:-2], amount, current_price_amz],
+    "Original Price": [current_price_djc[26:32], None, None],
+    "Savings": [savings_djc[11:-1], None, None],
+    "urls": [urls["djcity"], urls["store_dj"], urls["amazon"]]
+    })
+
+    print(price_df)
 
 if __name__ == "__main__":
     asyncio.run(main())
